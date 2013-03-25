@@ -1,0 +1,32 @@
+{
+  "name": "profile_time",
+  "version": "0.0.1",
+  "description": "A simple javascript profiler designed to work with node and express, especially helpful with cloud solutions like heroku.",
+  "main": "profile_time.js",
+  "bin": {
+    "parse_logs": "parse_logs.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chadn/profile_time.git"
+  },
+  "devDependencies": {
+    "lazy"    :  "*"
+  },
+  "homepage": "http://github.com/chadn/profile_time",
+  "keywords": [
+    "bottlenecks",
+    "heroku",
+    "node",
+    "nodejs",
+    "optimize",
+    "performance",
+    "profile",
+    "profiler",
+    "profiling",
+    "response time"
+  ],
+  "author": "Chad Norwood <chad@chadnorwood.com>",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
