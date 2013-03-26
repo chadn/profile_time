@@ -6,12 +6,19 @@
   "bin": {
     "parse_logs": "./bin/parse_logs.js"
   },
+  "scripts": {
+    "test": "mocha --reporter spec test/*.test.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/chadn/profile_time.git"
   },
-  "devDependencies": {
+  "dependencies": {
     "lazy"    :  "*"
+  },
+  "devDependencies": {
+    "mocha"   :  "*",
+    "express" :  "*"
   },
   "homepage": "http://github.com/chadn/profile_time",
   "keywords": [
