@@ -2,9 +2,9 @@
   "name": "profile_time",
   "version": "0.0.1",
   "description": "A simple javascript profiler designed to work with node and express, especially helpful with cloud solutions like heroku.",
-  "main": "profile_time.js",
+  "main": "lib/profile_time.js",
   "bin": {
-    "parse_logs": "parse_logs.js"
+    "parse_logs": "./bin/parse_logs.js"
   },
   "repository": {
     "type": "git",
