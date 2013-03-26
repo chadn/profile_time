@@ -66,15 +66,15 @@ describe('with expesss node server', function(){
 		
 		app.use(profile_time.express); // will create req.profile_time
 		
-		app.get('/wait', function(req,res){
+		app.get('/wait/:ms', function(req,res){
 			myLogger('Server received request: '+ req.url);
 			req.profile_time && req.profile_time.begin('wait');
 			setTimeout(function(){
 				req.profile_time && req.profile_time.end('wait');
 				res.send('done.');
-			}, delayMs);
+			}, req.params.ms || 420);
 		});
-		
+
 		server = app.listen(SERVER_LISTEN_PORT, function(){
 			myLogger('Server started up on port '+ SERVER_LISTEN_PORT);
 			done();
@@ -82,16 +82,15 @@ describe('with expesss node server', function(){
 	});
 
 	it('should handle http requests', function(done) {
-		// fire off request and close server
-		var url = 'http://127.0.0.1:'+ SERVER_LISTEN_PORT + '/wait';
-		//console.log('Request: '+ util.inspect(urlNode.parse(url)));
+		var url = 'http://127.0.0.1:'+ SERVER_LISTEN_PORT + '/wait/';
 		
-		http.request(url, function(res){
-			res.on('end', function() {
-				//console.log('Request got response: '+ url);
+		// send 2 requests with different wait times, then shutdown server
+		http.request(url + '420', function(res){
+			http.request(url + '180', function(res){
+				console.log('Received both responses: '+ url);
 				server.close();
 				done();
-			});
+			}).end();
 		}).end();
 	});
 

@@ -18,6 +18,34 @@ the total time spent in that chunk of code can be known. And more importantly,
 that time as percent of the total time is known, so it is possible to know how
 much time is actually being spent by a chunk of code before it is optimized.
 
+## Test and Example Logs
+
+Have a look at `test/profile_time.test.js` for example on how to use.
+
+Run `npm test` to generate sample `test/test.server.log`.  
+You might need to run `npm install --dev` for tests.
+Looks like this:
+
+	% cat test/test.server.log
+	Server started up on port 3000
+	Server received request: /wait/420
+	2013-03-26T22:42:02.676Z profile_time /wait/420 {"b:ALL":0,"b:wait":0,"e:wait":420,"e:ALL":421}
+	Server received request: /wait/180
+	2013-03-26T22:42:03.100Z profile_time /wait/180 {"b:ALL":0,"b:wait":0,"e:wait":179,"e:ALL":180}
+
+And analysis by `bin/parse_logs.js` reveals something like this:
+
+	% bin/parse_logs.js test/test.server.log
+	{ first: '2013-03-26T22:42:02.676Z',
+	  last: '2013-03-26T22:42:03.100Z',
+	  totalParsedLines: 2,
+	  totalLines: { wait: 2, ALL: 2 },
+	  totalTime: { wait: 599, ALL: 601 },
+	  averageTime: { wait: 300, ALL: 301 },
+	  percentTime: { wait: 99.7, ALL: 100 },
+	  percentLines: { wait: 100, ALL: 100 } }
+	Done
+
 
 ## Usage with node + express
 
@@ -90,7 +118,6 @@ With papertrail, you can get the last 7 days of archived log files, for free (10
 	     'product.jade': 24.4,
 	     'product/detail.jade': 0.3 } }
 	Done
-	
 
 
 ## Usage in a browser
