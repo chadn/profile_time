@@ -15,22 +15,8 @@
 
 var fs = require('fs');
 var lazy = require('lazy');
-var profile_time = require('./profile_time');
-
-var startMs = new Date().getTime();
-var t = { 
-	percent: {},
-	total: {
-		timeDone: 0,
-		timeJade: 0, // time spent rendering jade
-		timeCatgJade: 0,
-		linesCatgJade: 0,
-		linesJade: 0,
-		linesProd: 0,
-		linesCatg: 0,
-		lines: 0
-	}
-};
+var profile_time = require('../lib/profile_time');
+var myProfiler = profile_time.Profiler();
 
 function init() {
 	if (process.argv.length > 2) {
@@ -49,51 +35,36 @@ function readLazy(stream) {
 }
 
 function processLine(line) {
-	var p = profile_time.parseLogLine(line.toString());
-	if (!(p && p.json && p.json.Done)) {
-		//console.log('no match:', line.toString() );
+	var p = myProfiler.parseLogLine(line.toString());
+	if (!(p && p.json)) {
 		return;
 	}
-	if (!t.first) {
-		t.first = p.start;
+
+	// add custom times to p.elapsedMs so they can be summarized
+	if (!p.elapsedMs.ALL) {
+		p.elapsedMs.ALL = p.json.Done - p.json.start;
 	}
-	t.last = p.start;
-	t.total.lines++;
-	t.total.timeDone += p.json.Done;
 	for (key in p.json) {
 		if (key.match(/\.jade/i)) {
-			t.total.linesJade++;
-			t.total.timeJade += p.json.Done - p.json[key];
+			p.elapsedMs[key] = p.json.Done - p.json[key];
 		}
-		if (key.match(/category.jade/i)) {
-			t.total.linesCatgJade++;
-			t.total.timeCatgJade += p.json.Done - p.json[key];
-		}
+		//todo botApi.getProducts start
 	}
+	/*
 	if (p.url.match(/^\/category\//)) {
 		t.total.linesCatg++;
 	}
 	if (p.url.match(/^\/product\//)) {
 		t.total.linesProd++;
 	}
-}
-function summarize(){
-	if (t.total.timeDone) {
-		t.percent.timeJade = percent(t.total.timeJade / t.total.timeDone);
-		t.percent.timeCatgJade = percent(t.total.timeCatgJade / t.total.timeDone);
-		t.percent.linesCatgJade = percent(t.total.linesCatgJade / t.total.lines);
-		t.percent.linesCatg = percent(t.total.linesCatg / t.total.lines);
-		t.percent.linesProd = percent(t.total.linesProd / t.total.lines);
-		console.log(t);
-		console.log('Done');
-	} else {
-		console.log('No matching lines');
-	}
-	
-}
-function percent(n) {
-	return Math.round(1000 * n) / 10;
+	*/
+	myProfiler.addLineToTotal(p);
 }
 
+function summarize(){
+	myProfiler.summarizeTotal();
+	console.log(myProfiler.total);
+	console.log('Done');
+}
 
 init();

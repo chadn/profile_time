@@ -95,12 +95,14 @@ describe('with expesss node server', function(){
 		}).end();
 	});
 
-	it('should log to file', function(done) {
+	it('should correctly log to file', function(done) {
+		var myProfiler = profile_time.Profiler();
+		
 		var logLines = fs.readFileSync(logfn, 'utf8').split('\n');
 		//console.log('logLines', util.inspect(logLines));
 
 		for (var ii=0; ii<logLines.length; ii++) {
-			var line = profile_time.parseLogLine(logLines[ii]);
+			var line = myProfiler.parseLogLine(logLines[ii]);
 			if (!line) {
 				continue;
 			}
