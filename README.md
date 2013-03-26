@@ -60,25 +60,37 @@ which can prevent correct parsing.  These occasional data points get skipped.
 I personally use it with heroku and the papertrail addon, to scan all log lines from the previous day.
 With papertrail, you can get the last 7 days of archived log files, for free (10MB max per day).
 
-	% gzip -dc ~/download/2013-03-24.gz | ./parse_logs.js
-	{ percent: 
-	   { timeJade: 66.2,
-	     timeCatgJade: 39.1,
-	     linesCatgJade: 48.4,
-	     linesCatg: 48.2,
-	     linesProd: 24.8 },
-	  total: 
-	   { timeDone: 17454705,
-	     timeJade: 11561146,
-	     timeCatgJade: 6816973,
-	     linesCatgJade: 14054,
-	     linesJade: 25645,
-	     linesProd: 7210,
-	     linesCatg: 13994,
-	     lines: 29046 },
-	  first: '2013-03-24T00:00:00.375Z',
-	  last: '2013-03-24T23:59:58.836Z' }
+	% gzip -dc ~/download/2013-03-24.gz | ./bin/parse_logs.js 
+	{ first: '2013-03-24T00:00:00.375Z',
+	  last: '2013-03-24T23:59:58.836Z',
+	  totalParsedLines: 29046,
+	  totalLines: 
+	   { ALL: 29046,
+	     'category.jade': 14054,
+	     'product.jade': 7073,
+	     'product/detail.jade': 78 },
+	  totalTime: 
+	   { ALL: 17454705,
+	     'category.jade': 6816973,
+	     'product.jade': 3346311,
+	     'product/detail.jade': 2045 },
+	  averageTime: 
+	   { ALL: 601,
+	     'category.jade': 485,
+	     'product.jade': 473,
+	     'product/detail.jade': 26 },
+	  percentTime: 
+	   { ALL: 100,
+	     'category.jade': 39.1,
+	     'product.jade': 19.2,
+	     'product/detail.jade': 0 },
+	  percentLines: 
+	   { ALL: 100,
+	     'category.jade': 48.4,
+	     'product.jade': 24.4,
+	     'product/detail.jade': 0.3 } }
 	Done
+	
 
 
 ## Usage in a browser
