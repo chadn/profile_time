@@ -38,7 +38,7 @@ function help() {
 
 function init() {
 	program
-		.version('0.0.2')
+		.version('0.0.3')
 		.option('-v, --verbose', 'be verbose in output')
 		.option('-l, --logfile <file.log>', 'parse file.log, not stdin. Looks to stdin if no logfile')
 		.option('-t, --top <type>', 'only show stats for those in the top <type>,'
