@@ -46,7 +46,7 @@ function processLine(line) {
 	}
 	for (key in p.json) {
 		if (key.match(/\.jade/i)) {
-			p.elapsedMs[key] = p.json.Done - p.json[key];
+			p.elapsedMs[key] = (p.json.Done || p.json['e:ALL']) - p.json[key];
 		}
 		//todo botApi.getProducts start
 	}
