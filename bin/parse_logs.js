@@ -62,8 +62,7 @@ function processLine(line) {
 }
 
 function summarize(){
-	myProfiler.summarizeTotal();
-	console.log(myProfiler.total);
+	console.log(myProfiler.summarizeTotal());
 	console.log('Done');
 }
 

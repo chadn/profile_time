@@ -66,7 +66,7 @@ Lastly, insert req.profile_time.add() in your routes, like this
 	
 	app.get('/category/:catg', function(req,res){
 		...
-		req.profile_time.add('category.jade');
+		req.profile_time && req.profile_time.add('category.jade');
 		res.render('category.jade', data);
 	});
 
