@@ -18,13 +18,14 @@ the total time spent in that chunk of code can be known. And more importantly,
 that time as percent of the total time is known, so it is possible to know how
 much time is actually being spent by a chunk of code before it is optimized.
 
-## Test and Example Logs
+## Example
 
-Have a look at `test/profile_time.test.js` for example on how to use.
+For example code, look at `test/profile_time.test.js`.
 
-Run `npm test` to generate sample `test/test.server.log`.  
+Run `npm test` to generate sample `test/test.server.log` based on the the above example code.
 You might need to run `npm install --dev` for tests.
-Looks like this:
+
+Example node log looks like this:
 
 	% cat test/test.server.log
 	Server started up on port 3000
