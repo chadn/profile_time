@@ -37,16 +37,22 @@ function help() {
 function init() {
 	program
 		.version('0.0.2')
+		//.option('-v, --verbose', 'be verbose in output')
 		.option('-l, --logfile [file.log]', 'parse file.log, not stdin. Looks to stdin if no logfile')
+		.option('-t, --topTime [n]', 'only show stats for those with total time in the top [n]')
+		.option('--topAvgTime [n]', 'only show stats for those with avg time in the top [n]')
+		.option('--topLines [n]', 'only show stats for those with total Lines in the top [n]')
+		.option('-b, --bottom', 'instead of those in the top, show ones from bottom')
 		.option('-u, --url [n]', 'Display stats from url instead of from json key data.\n'
 		   + 'Group urls by at most depth n, where depth is number of slashes: /1/2/3')
-		//.option('-t, --top [n]', 'only show stats for the top [n] values')
-		//.option('-v, --verbose', 'be verbose in output')
 		.on('--help', help)
 		.parse(process.argv);
 
 	myProfiler   = profile_time.Profiler({ 
-		//topValues : program.top,
+		bottom : program.bottom,
+		topTime : program.topTime,
+		topAvgTime : program.topAvgTime,
+		topLines : program.topLines,
 		urls : program.url
 	});
 	//process.stdout.write(program.helpInformation());

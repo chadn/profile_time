@@ -13,7 +13,6 @@ var SERVER_LISTEN_PORT = 3000;
 var logfn = __dirname + '/test.server.log';
 fs.writeFileSync(logfn, ''); // truncate any existing file
 
-
 describe('with only testing profile_time', function(){
 	var myProfiler;
 	var logs = [];
@@ -32,6 +31,16 @@ describe('with only testing profile_time', function(){
 			done();
 		}, delayMs);
 	});
+
+	it('should correctly sort objects by value', function(){
+		var sorted = myProfiler.sortObjByValue({
+			d: 1,
+			b: 8,
+			c: 4,
+			a: 10
+		})
+		assert.deepEqual(sorted.reverse(), ['a','b','c','d']);
+	})
 
 	it('should log to logger', function(){
 		assert(logs.length >= 1);
