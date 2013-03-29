@@ -29,32 +29,43 @@ function help() {
   console.log('  Examples:');
   console.log('');
   console.log('    $ cat file.log | parse_logs.js');
-  console.log('    $ cat file.log | parse_logs.js -u 2');
+  console.log('    $ cat file.log | parse_logs.js -u 2 -t averageTime -n 1');
   console.log('    $ parse_logs.js -l file.log');
   console.log('    $ parse_logs.js -u 1 -l file.log');
   console.log('');
 }
+
+
 function init() {
 	program
 		.version('0.0.2')
-		//.option('-v, --verbose', 'be verbose in output')
-		.option('-l, --logfile [file.log]', 'parse file.log, not stdin. Looks to stdin if no logfile')
-		.option('-t, --topTime [n]', 'only show stats for those with total time in the top [n]')
-		.option('--topAvgTime [n]', 'only show stats for those with avg time in the top [n]')
-		.option('--topLines [n]', 'only show stats for those with total Lines in the top [n]')
-		.option('-b, --bottom', 'instead of those in the top, show ones from bottom')
-		.option('-u, --url [n]', 'Display stats from url instead of from json key data.\n'
+		.option('-v, --verbose', 'be verbose in output')
+		.option('-l, --logfile <file.log>', 'parse file.log, not stdin. Looks to stdin if no logfile')
+		.option('-t, --top <type>', 'only show stats for those in the top <type>,'
+		  + 'where <type> can be: totalLines, totalTime, averageTime, percentTime, percentLines.')
+		.option('-n, --topN <N>', 'only show stats for those in the top <N>, to be used with --top.')
+		.option('-b, --bottomN <N>', 'only show stats for those in the bottom <N>, to be used with --top.')
+		.option('--skipTimeouts <N>', 'skip lines that took longer than <N> ms (timeouts occur on bureau-node after 24000 ms).')
+		.option('-u, --url <N>', 'Display stats from url instead of from json key data.\n'
 		   + 'Group urls by at most depth n, where depth is number of slashes: /1/2/3')
 		.on('--help', help)
 		.parse(process.argv);
 
-	myProfiler   = profile_time.Profiler({ 
-		bottom : program.bottom,
-		topTime : program.topTime,
-		topAvgTime : program.topAvgTime,
-		topLines : program.topLines,
+	
+	myProfiler = profile_time.Profiler({ 
+		skipTimeouts : program.skipTimeouts,
+		top : program.top,
 		urls : program.url
 	});
+	if (program.topN) {
+		myProfiler.options.topN = parseInt(program.topN);
+	}
+	if (program.bottomN) {
+		myProfiler.options.topN = 0 - parseInt(program.bottomN);
+	}
+	if (program.verbose) {
+		console.log('Starting program!', myProfiler);
+	}
 	//process.stdout.write(program.helpInformation());
 	
 	if (program.logfile) {
