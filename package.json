@@ -14,7 +14,8 @@
     "url": "git://github.com/chadn/profile_time.git"
   },
   "dependencies": {
-    "lazy"    :  "*"
+    "commander"  :  "*",
+    "lazy"       :  "*"
   },
   "devDependencies": {
     "mocha"   :  "*",
