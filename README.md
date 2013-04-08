@@ -140,4 +140,5 @@ A list of [several node profilers](http://mindon.github.com/blog/2012/04/26/prof
 
 
 
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/668ae769a24dc79a0b618edecea964a5 "githalytics.com")](http://githalytics.com/chadn/profile_time)
 
